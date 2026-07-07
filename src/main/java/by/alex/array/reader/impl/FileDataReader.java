@@ -16,8 +16,7 @@ public class FileDataReader implements DataReader {
     }
     try {
       Path path = Path.of(filePath);
-      List<String> lines = Files.readAllLines(path);
-      return lines;
+      return Files.readAllLines(path);
     } catch (IOException | IllegalArgumentException e) {
       throw new ArrayProcessingException("Cannot read file: " + filePath, e);
     }

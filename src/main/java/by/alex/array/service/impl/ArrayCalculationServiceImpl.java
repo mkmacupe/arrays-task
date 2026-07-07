@@ -4,6 +4,7 @@ import by.alex.array.entity.IntArrayEntity;
 import by.alex.array.service.ArrayCalculationService;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 public class ArrayCalculationServiceImpl implements ArrayCalculationService {
 
@@ -38,16 +39,16 @@ public class ArrayCalculationServiceImpl implements ArrayCalculationService {
   }
 
   @Override
-  public OptionalInt calculateSum(IntArrayEntity array) {
+  public OptionalLong calculateSum(IntArrayEntity array) {
     int[] values = array.getValues();
     if (values.length == 0) {
-      return OptionalInt.empty();
+      return OptionalLong.empty();
     }
-    int sum = 0;
+    long sum = 0L;
     for (int value : values) {
       sum += value;
     }
-    return OptionalInt.of(sum);
+    return OptionalLong.of(sum);
   }
 
   @Override
@@ -56,7 +57,7 @@ public class ArrayCalculationServiceImpl implements ArrayCalculationService {
     if (values.length == 0) {
       return OptionalDouble.empty();
     }
-    int sum = 0;
+    long sum = 0L;
     for (int value : values) {
       sum += value;
     }

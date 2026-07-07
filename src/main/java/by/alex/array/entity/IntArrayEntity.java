@@ -4,18 +4,24 @@ import java.util.Arrays;
 
 public class IntArrayEntity {
 
+  private final long id;
   private int[] values;
 
-  public IntArrayEntity(int[] values) {
-    this.values = values.clone();
+  public IntArrayEntity(long id, int[] values) {
+    this.id = id;
+    this.values = (values != null) ? Arrays.copyOf(values, values.length) : new int[0];
+  }
+
+  public long getId() {
+    return id;
   }
 
   public int[] getValues() {
-    return values.clone();
+    return Arrays.copyOf(values, values.length);
   }
 
   public void setValues(int[] values) {
-    this.values = values.clone();
+    this.values = (values != null) ? Arrays.copyOf(values, values.length) : new int[0];
   }
 
   @Override
@@ -27,16 +33,22 @@ public class IntArrayEntity {
       return false;
     }
     IntArrayEntity other = (IntArrayEntity) o;
-    return Arrays.equals(values, other.values);
+    return (id == other.id) && Arrays.equals(values, other.values);
   }
 
   @Override
   public int hashCode() {
-    return Arrays.hashCode(values);
+    int result = Long.hashCode(id);
+    result = 31 * result + Arrays.hashCode(values);
+    return result;
   }
 
   @Override
   public String toString() {
-    return "IntArrayEntity{values=" + Arrays.toString(values) + "}";
+    StringBuilder sb = new StringBuilder("IntArrayEntity{");
+    sb.append("id=").append(id);
+    sb.append(", values=").append(Arrays.toString(values));
+    sb.append('}');
+    return sb.toString();
   }
 }

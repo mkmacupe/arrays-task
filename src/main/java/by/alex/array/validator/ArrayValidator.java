@@ -4,5 +4,5 @@ public interface ArrayValidator {
 
   String VALID_NUMBER_LINE_REGEX = "^\\s*-?\\d+(?:\\s*,\\s*-?\\d+)*\\s*$";
 
-  boolean isValid(String rawLine);
+  boolean isValidNumberLine(String rawLine);
 }

@@ -3,6 +3,7 @@ package by.alex.array.service;
 import by.alex.array.entity.IntArrayEntity;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 public interface ArrayCalculationService {
 
@@ -10,7 +11,7 @@ public interface ArrayCalculationService {
 
   OptionalInt findMax(IntArrayEntity array);
 
-  OptionalInt calculateSum(IntArrayEntity array);
+  OptionalLong calculateSum(IntArrayEntity array);
 
   OptionalDouble calculateAverage(IntArrayEntity array);
 }
