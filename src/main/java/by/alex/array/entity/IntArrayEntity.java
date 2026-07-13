@@ -1,15 +1,19 @@
 package by.alex.array.entity;
 
+import by.alex.array.exception.ArrayProcessingException;
+import by.alex.array.observer.ArrayObserver;
 import java.util.Arrays;
+import java.util.StringJoiner;
 
 public class IntArrayEntity {
-
   private final long id;
   private int[] values;
 
+  private ArrayObserver observer;
+
   public IntArrayEntity(long id, int[] values) {
     this.id = id;
-    this.values = (values != null) ? Arrays.copyOf(values, values.length) : new int[0];
+    this.values = values == null ? new int[0] : Arrays.copyOf(values, values.length);
   }
 
   public long getId() {
@@ -21,19 +25,43 @@ public class IntArrayEntity {
   }
 
   public void setValues(int[] values) {
-    this.values = (values != null) ? Arrays.copyOf(values, values.length) : new int[0];
+    this.values = values == null ? new int[0] : Arrays.copyOf(values, values.length);
+    notifyObserver();
+  }
+
+  public void setElement(int index, int value) throws ArrayProcessingException {
+    if (index >= 0 && index < values.length) {
+      this.values[index] = value;
+      notifyObserver();
+    } else {
+      throw new ArrayProcessingException("Index out of bounds: " + index);
+    }
+  }
+
+  public void attach(ArrayObserver observer) {
+    this.observer = observer;
+  }
+
+  public void detach() {
+    this.observer = null;
+  }
+
+  private void notifyObserver() {
+    if (observer != null) {
+      observer.onValuesChanged(this);
+    }
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) {
+  public boolean equals(Object otherObject) {
+    if (this == otherObject) {
       return true;
     }
-    if (o == null || getClass() != o.getClass()) {
+    if (otherObject == null || getClass() != otherObject.getClass()) {
       return false;
     }
-    IntArrayEntity other = (IntArrayEntity) o;
-    return (id == other.id) && Arrays.equals(values, other.values);
+    IntArrayEntity that = (IntArrayEntity) otherObject;
+    return id == that.id && Arrays.equals(values, that.values);
   }
 
   @Override
@@ -45,10 +73,9 @@ public class IntArrayEntity {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder("IntArrayEntity{");
-    sb.append("id=").append(id);
-    sb.append(", values=").append(Arrays.toString(values));
-    sb.append('}');
-    return sb.toString();
+    return new StringJoiner(", ", IntArrayEntity.class.getSimpleName() + "[", "]")
+        .add("id=" + id)
+        .add("values=" + Arrays.toString(values))
+        .toString();
   }
 }

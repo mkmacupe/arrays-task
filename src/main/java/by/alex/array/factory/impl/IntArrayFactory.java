@@ -1,7 +1,9 @@
 package by.alex.array.factory.impl;
 
-import by.alex.array.factory.ArrayFactory;
 import by.alex.array.entity.IntArrayEntity;
+import by.alex.array.factory.ArrayFactory;
+import by.alex.array.observer.ArrayObserver;
+import by.alex.array.observer.impl.ArrayObserverImpl;
 
 public class IntArrayFactory implements ArrayFactory {
 
@@ -11,6 +13,10 @@ public class IntArrayFactory implements ArrayFactory {
   public IntArrayEntity create(int[] values) {
     long currentId = idCounter;
     idCounter++;
-    return new IntArrayEntity(currentId, values);
+    IntArrayEntity entity = new IntArrayEntity(currentId, values);
+    ArrayObserver observer = new ArrayObserverImpl();
+    entity.attach(observer);
+    observer.onValuesChanged(entity);
+    return entity;
   }
 }
