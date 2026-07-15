@@ -1,6 +1,7 @@
 package by.alex.array.exception;
 
 public class ArrayProcessingException extends Exception {
+
   public ArrayProcessingException(String message) {
     super(message);
   }

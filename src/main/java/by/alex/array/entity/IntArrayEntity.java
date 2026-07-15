@@ -6,9 +6,9 @@ import java.util.Arrays;
 import java.util.StringJoiner;
 
 public class IntArrayEntity {
+
   private final long id;
   private int[] values;
-
   private ArrayObserver observer;
 
   public IntArrayEntity(long id, int[] values) {

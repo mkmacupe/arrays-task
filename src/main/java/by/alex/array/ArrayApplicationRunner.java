@@ -22,25 +22,37 @@ import org.apache.logging.log4j.Logger;
 
 public class ArrayApplicationRunner {
 
-  private static final Logger logger = LogManager.getLogger();
-
-  private final DataReader reader = new FileDataReader();
-  private final DataParser parser = new LineParser();
-  private final ArrayFactory factory = new IntArrayFactory();
-  private final ArrayRepository repository = InMemoryArrayRepository.getInstance();
+  private static final Logger logger = LogManager.getLogger(ArrayApplicationRunner.class);
 
   public void run(String filePath) {
+    DataReader reader = new FileDataReader();
+    DataParser parser = new LineParser();
+    ArrayFactory factory = new IntArrayFactory();
+    ArrayRepository repository = InMemoryArrayRepository.getInstance();
+
     try {
       List<String> lines = reader.readLines(filePath);
       for (String line : lines) {
-        processRawLine(line);
+        try {
+          int[] numbers = parser.parse(line);
+          if (numbers.length > 0) {
+            logger.info("Processing valid line: {}", line);
+            IntArrayEntity array = factory.create(numbers);
+            repository.add(array);
+          } else {
+            logger.debug("Empty line skipped: {}", line);
+          }
+        } catch (ArrayProcessingException e) {
+          logger.error("Error parsing line: {}", line, e);
+        }
       }
 
       List<IntArrayEntity> allArrays = repository.sort(ArrayComparators.BY_ID);
       logger.info("All arrays count: {}", allArrays.size());
 
       for (IntArrayEntity entity : allArrays) {
-        Optional<ArrayParameters> paramsOpt = Warehouse.getInstance().get(entity.getId());
+        Optional<ArrayParameters> paramsOpt = Warehouse.getInstance()
+                                                       .get(entity.getId());
         paramsOpt.ifPresent(
             params ->
                 logger.info(
@@ -63,20 +75,6 @@ public class ArrayApplicationRunner {
 
     } catch (ArrayProcessingException e) {
       logger.error(e.getMessage(), e);
-    }
-  }
-
-  private void processRawLine(String rawLine) {
-    try {
-      int[] numbers = parser.parse(rawLine);
-      if (numbers.length > 0) {
-        IntArrayEntity array = factory.create(numbers);
-        repository.add(array);
-      } else {
-        logger.debug("Empty line skipped: {}", rawLine);
-      }
-    } catch (ArrayProcessingException e) {
-      logger.error("Error parsing line: {}", rawLine, e);
     }
   }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public interface ArrayRepository {
+
   boolean add(IntArrayEntity array);
 
   boolean remove(IntArrayEntity array);

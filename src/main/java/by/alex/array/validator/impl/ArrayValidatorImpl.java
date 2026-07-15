@@ -6,6 +6,6 @@ public class ArrayValidatorImpl implements ArrayValidator {
 
   @Override
   public boolean isValidNumberLine(String rawLine) {
-    return (rawLine != null) && (rawLine.matches(VALID_NUMBER_LINE_REGEX));
+    return (rawLine != null && rawLine.matches(VALID_NUMBER_LINE_REGEX));
   }
 }

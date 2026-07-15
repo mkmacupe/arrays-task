@@ -8,8 +8,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class InMemoryArrayRepository implements ArrayRepository {
+  private static final Logger logger = LogManager.getLogger(InMemoryArrayRepository.class);
   private static InMemoryArrayRepository instance;
   private final List<IntArrayEntity> storage = new ArrayList<>();
 
@@ -25,7 +28,9 @@ public class InMemoryArrayRepository implements ArrayRepository {
   @Override
   public boolean add(IntArrayEntity array) {
     if (array != null) {
-      return storage.add(array);
+      boolean result = storage.add(array);
+      logger.info("Entity with ID {} added to repository: {}", array.getId(), result);
+      return result;
     }
     return false;
   }
@@ -35,7 +40,9 @@ public class InMemoryArrayRepository implements ArrayRepository {
     if (array != null) {
       array.detach();
       Warehouse.getInstance().remove(array.getId());
-      return storage.remove(array);
+      boolean result = storage.remove(array);
+      logger.info("Entity with ID {} removed from repository: {}", array.getId(), result);
+      return result;
     }
     return false;
   }

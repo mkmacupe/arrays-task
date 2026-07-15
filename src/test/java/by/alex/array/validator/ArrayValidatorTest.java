@@ -15,14 +15,20 @@ class ArrayValidatorTest {
   @ParameterizedTest
   @MethodSource("provideValidLines")
   void shouldReturnTrueForValidLines(String line) {
+    // when
     boolean result = validator.isValidNumberLine(line);
+
+    // then
     assertTrue(result);
   }
 
   @ParameterizedTest
   @MethodSource("provideInvalidLines")
   void shouldReturnFalseForInvalidLines(String line) {
+    // when
     boolean result = validator.isValidNumberLine(line);
+
+    // then
     assertFalse(result);
   }
 

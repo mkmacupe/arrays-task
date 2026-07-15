@@ -17,21 +17,30 @@ class LineParserTest {
   @ParameterizedTest
   @MethodSource("provideValidLines")
   void shouldParseValidLine(String line, int[] expected) throws ArrayProcessingException {
+    // when
     int[] result = parser.parse(line);
+
+    // then
     assertArrayEquals(expected, result);
   }
 
   @ParameterizedTest
   @MethodSource("provideBlankLines")
   void shouldReturnEmptyArrayForBlankLines(String line) throws ArrayProcessingException {
+    // given
     int[] expected = new int[0];
+
+    // when
     int[] result = parser.parse(line);
+
+    // then
     assertArrayEquals(expected, result);
   }
 
   @ParameterizedTest
   @MethodSource("provideInvalidLines")
   void shouldThrowExceptionForInvalidLines(String line) {
+    // when & then
     assertThrows(
         ArrayProcessingException.class,
         () -> {

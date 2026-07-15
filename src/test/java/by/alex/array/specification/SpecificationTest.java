@@ -10,91 +10,121 @@ public class SpecificationTest {
 
   @Test
   public void testSumSpecificationInRangePositive() {
-    IntArrayEntity entity = new IntArrayEntity(1L, new int[] {1, 2, 3});
+    // given
+    IntArrayEntity entity = new IntArrayEntity(1L, new int[]{1, 2, 3});
 
+    // when
     boolean result = new SumSpecification(5L, 10L).test(entity);
 
+    // then
     assertTrue(result);
   }
 
   @Test
   public void testSumSpecificationOutOfRangeNegative() {
-    IntArrayEntity entity = new IntArrayEntity(1L, new int[] {1, 2, 3});
+    // given
+    IntArrayEntity entity = new IntArrayEntity(1L, new int[]{1, 2, 3});
 
+    // when
     boolean result = new SumSpecification(7L, 10L).test(entity);
 
+    // then
     assertFalse(result);
   }
 
   @Test
   public void testAverageSpecificationBelowThresholdPositive() {
-    IntArrayEntity entity = new IntArrayEntity(1L, new int[] {2, 4, 6});
+    // given
+    IntArrayEntity entity = new IntArrayEntity(1L, new int[]{2, 4, 6});
 
+    // when
     boolean result = new AverageSpecification(5.0).test(entity);
 
+    // then
     assertTrue(result);
   }
 
   @Test
   public void testAverageSpecificationNotBelowThresholdNegative() {
-    IntArrayEntity entity = new IntArrayEntity(1L, new int[] {2, 4, 6});
+    // given
+    IntArrayEntity entity = new IntArrayEntity(1L, new int[]{2, 4, 6});
 
+    // when
     boolean result = new AverageSpecification(4.0).test(entity);
 
+    // then
     assertFalse(result);
   }
 
   @Test
   public void testMaxSpecificationEqualsThresholdPositive() {
-    IntArrayEntity entity = new IntArrayEntity(1L, new int[] {1, 5, 3});
+    // given
+    IntArrayEntity entity = new IntArrayEntity(1L, new int[]{1, 5, 3});
 
+    // when
     boolean result = new MaxSpecification(5).test(entity);
 
+    // then
     assertTrue(result);
   }
 
   @Test
   public void testMaxSpecificationNotEqualsThresholdNegative() {
-    IntArrayEntity entity = new IntArrayEntity(1L, new int[] {1, 5, 3});
+    // given
+    IntArrayEntity entity = new IntArrayEntity(1L, new int[]{1, 5, 3});
 
+    // when
     boolean result = new MaxSpecification(4).test(entity);
 
+    // then
     assertFalse(result);
   }
 
   @Test
   public void testMinSpecificationNotBelowThresholdPositive() {
-    IntArrayEntity entity = new IntArrayEntity(1L, new int[] {3, 5, 7});
+    // given
+    IntArrayEntity entity = new IntArrayEntity(1L, new int[]{3, 5, 7});
 
+    // when
     boolean result = new MinSpecification(3).test(entity);
 
+    // then
     assertTrue(result);
   }
 
   @Test
   public void testMinSpecificationBelowThresholdNegative() {
-    IntArrayEntity entity = new IntArrayEntity(1L, new int[] {3, 5, 7});
+    // given
+    IntArrayEntity entity = new IntArrayEntity(1L, new int[]{3, 5, 7});
 
+    // when
     boolean result = new MinSpecification(4).test(entity);
 
+    // then
     assertFalse(result);
   }
 
   @Test
   public void testLengthSpecificationAboveThresholdPositive() {
-    IntArrayEntity entity = new IntArrayEntity(1L, new int[] {1, 2, 3});
+    // given
+    IntArrayEntity entity = new IntArrayEntity(1L, new int[]{1, 2, 3});
 
+    // when
     boolean result = new LengthSpecification(2).test(entity);
 
+    // then
     assertTrue(result);
   }
 
   @Test
   public void testLengthSpecificationNotAboveThresholdNegative() {
-    IntArrayEntity entity = new IntArrayEntity(1L, new int[] {1, 2, 3});
+    // given
+    IntArrayEntity entity = new IntArrayEntity(1L, new int[]{1, 2, 3});
 
+    // when
     boolean result = new LengthSpecification(3).test(entity);
 
+    // then
     assertFalse(result);
   }
 }

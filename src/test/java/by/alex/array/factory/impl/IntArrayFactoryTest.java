@@ -24,30 +24,39 @@ public class IntArrayFactoryTest {
 
   @Test
   public void testCreateReturnsEntityWithGivenValuesPositive() {
+    // given
     ArrayFactory factory = new IntArrayFactory();
 
+    // when
     IntArrayEntity entity = factory.create(new int[] {1, 2, 3});
 
+    // then
     assertArrayEquals(new int[] {1, 2, 3}, entity.getValues());
   }
 
   @Test
   public void testCreateAssignsIncrementingIdsPositive() {
+    // given
     ArrayFactory factory = new IntArrayFactory();
-
     IntArrayEntity first = factory.create(new int[] {1});
+
+    // when
     IntArrayEntity second = factory.create(new int[] {2});
 
+    // then
     assertEquals(first.getId() + 1, second.getId());
   }
 
   @Test
   public void testCreateSeedsWarehousePositive() {
+    // given
     ArrayFactory factory = new IntArrayFactory();
-
     IntArrayEntity entity = factory.create(new int[] {1, 2, 3});
 
+    // when
     Optional<ArrayParameters> paramsOpt = Warehouse.getInstance().get(entity.getId());
+
+    // then
     assertTrue(paramsOpt.isPresent());
     assertEquals(new ArrayParameters(1, 3, 6L, 2.0), paramsOpt.get());
   }

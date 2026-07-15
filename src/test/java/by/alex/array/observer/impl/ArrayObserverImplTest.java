@@ -24,12 +24,15 @@ public class ArrayObserverImplTest {
 
   @Test
   public void testOnValuesChangedStoresStatisticsPositive() {
+    // given
     IntArrayEntity entity = new IntArrayEntity(1L, new int[] {10, -2, 5, 3});
     ArrayObserverImpl observer = new ArrayObserverImpl();
-
     observer.onValuesChanged(entity);
 
+    // when
     Optional<ArrayParameters> statsOpt = Warehouse.getInstance().get(1L);
+
+    // then
     assertTrue(statsOpt.isPresent());
     ArrayParameters stats = statsOpt.get();
     assertAll(
@@ -41,12 +44,15 @@ public class ArrayObserverImplTest {
 
   @Test
   public void testOnValuesChangedEmptyArrayRemovesStatisticsNegative() {
+    // given
     IntArrayEntity entity = new IntArrayEntity(1L, new int[0]);
     ArrayObserverImpl observer = new ArrayObserverImpl();
     Warehouse.getInstance().put(1L, new ArrayParameters(1, 1, 1L, 1.0));
 
+    // when
     observer.onValuesChanged(entity);
 
+    // then
     assertFalse(Warehouse.getInstance().get(1L).isPresent());
   }
 }

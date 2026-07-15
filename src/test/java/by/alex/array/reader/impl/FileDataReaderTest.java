@@ -26,15 +26,19 @@ public class FileDataReaderTest {
 
   @Test
   public void testReadLinesNullPathThrowsExceptionNegative() {
+    // when
     DataReader reader = new FileDataReader();
 
+    // then
     assertThrows(ArrayProcessingException.class, () -> reader.readLines(null));
   }
 
   @Test
   public void testReadLinesMissingFileThrowsExceptionNegative() {
+    // when
     DataReader reader = new FileDataReader();
 
+    // then
     assertThrows(ArrayProcessingException.class, () -> reader.readLines("no_such_file_12345.txt"));
   }
 }
